@@ -85,13 +85,12 @@ namespace GridViewSample.UserCtrl
         /// </summary>
         public void Update()
         {
-            double hSize = HeaderConfigList.Sum(list => list.Items.Max(item => item?.RowSize ?? 0));
-            HeaderRowSize.Height = new GridLength(hSize, GridUnitType.Pixel);
             Header.HeaderBackColor = HeaderBackColor;
             Header.HeadeForeColor = HeadeForeColor;
             Header.FrozenCount = FrozenCount;
             Header.HeaderConfigList = HeaderConfigList;
-            Header.Update();
+            double hSize = Header.Update();
+            HeaderRowSize.Height = new GridLength(hSize, GridUnitType.Pixel);
 
         }
     }

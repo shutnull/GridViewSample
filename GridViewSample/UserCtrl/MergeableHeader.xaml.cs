@@ -46,11 +46,12 @@ namespace GridViewSample.UserCtrl
         /// <summary>
         /// 表示更新
         /// </summary>
-        public void Update()
+        /// <returns>表示の高さ</returns>
+        public double Update()
         {
             if (HeaderConfigList.Count <= 0)
             {
-                return;
+                return double.NaN;
             }
 
             // スクロール領域のサイズを取得する
@@ -89,6 +90,8 @@ namespace GridViewSample.UserCtrl
             }
 
             Height = LastTopSize.Max();
+
+            return Height;
         }
 
         private Label InitializeLabel(double height, double width, double canvasTop, double canvasLeft, string text)
