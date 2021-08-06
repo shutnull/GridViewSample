@@ -158,6 +158,7 @@ namespace GridViewSample
             margableDataGridView.HeaderConfigList = headerConfigList;
             margableDataGridView.GridBoxConfig = gridBoxConfig;
             margableDataGridView.DataSource = dataTable;
+            margableDataGridView.FrozenCount = 2;
             margableDataGridView.Update();
         }
 

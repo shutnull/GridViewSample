@@ -53,14 +53,11 @@ namespace GridViewSample.UserCtrl
                 return;
             }
 
-            // このコントロールの高さを計算する
-            Height =  HeaderConfigList.Sum(list => list.Items.Max(item => item?.RowSize ?? 0));
             // スクロール領域のサイズを取得する
             double wSize = HeaderConfigList.Select(list => list.Items.Take(FrozenCount).Sum(item => item?.ColumnSize ?? 0)).Max();
-            //FrozenSize.Width = new GridLength(wSize, GridUnitType.Pixel);
+            FrozenSize.Width = new GridLength(wSize, GridUnitType.Pixel);
             // スクロール領域のサイズを取得する
             CanvasNoFrozen.Width = HeaderConfigList.Select(list => list.Items.Skip(FrozenCount).Sum(item => item?.ColumnSize ?? 0)).Max();
-
 
             double[] LastTopSize = new double[HeaderConfigList[0].Items.Length];
             foreach (MergeableHeaderConfig headerConfig in HeaderConfigList)
@@ -83,13 +80,15 @@ namespace GridViewSample.UserCtrl
                     else
                     {
                         Label label = InitializeLabel(items.RowSize, items.ColumnSize, LastTopSize[count], leftSizeCnt - wSize, items.Text);
-                        CanvasFrozen.Children.Add(label);
+                        CanvasNoFrozen.Children.Add(label);
                     }
-                    LastTopSize[count] = items.RowSize;
+                    LastTopSize[count] += items.RowSize;
                     leftSizeCnt += items.ColumnSize;
                     count++;
                 }
             }
+
+            Height = LastTopSize.Max();
         }
 
         private Label InitializeLabel(double height, double width, double canvasTop, double canvasLeft, string text)
