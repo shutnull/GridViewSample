@@ -66,13 +66,16 @@ namespace GridViewSample.UserCtrl
             CanvasNoFrozen.Width = GridBoxConfig.ColumnSize.Skip(FrozenCount).Sum();
 
             // データ行情報を列挙
-            DataRow[] dataRows = DataSource.Rows.Cast<DataRow>().ToArray();
+            DataRow[] dataRowArray = DataSource.Rows.Cast<DataRow>().ToArray();
 
-            for (int row = 0; row < dataRows.Length; row++)
+            for (int row = 0; row < dataRowArray.Length; row++)
             {
-
-                for (int col = 0; col < dataRows[row].ItemArray.Length; col++)
+                if((row + 1) < dataRowArray.Length)
                 {
+                    object[] dataRow = dataRowArray[row].ItemArray;
+                    for (int col = 0; col < dataRow.Length; col++)
+                    {
+                    }
                 }
             }
         }
