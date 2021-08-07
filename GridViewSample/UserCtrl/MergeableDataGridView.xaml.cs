@@ -85,12 +85,16 @@ namespace GridViewSample.UserCtrl
         /// </summary>
         public void Update()
         {
+            // ヘッダーの設定
             Header.HeaderBackColor = HeaderBackColor;
             Header.HeadeForeColor = HeadeForeColor;
             Header.FrozenCount = FrozenCount;
             Header.HeaderConfigList = HeaderConfigList;
+            // ヘッダーを描画して高さを取得する
             double hSize = Header.Update();
             HeaderRowSize.Height = new GridLength(hSize, GridUnitType.Pixel);
+
+            // グリッドボックスの設定
 
         }
     }

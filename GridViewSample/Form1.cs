@@ -128,7 +128,7 @@ namespace GridViewSample
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
+                new MergeableHeaderConfigItem(text:"ヘッダー\nにゃ", columnSize:100, rowSize:33),
                 new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
                 new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
                 new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
@@ -154,11 +154,15 @@ namespace GridViewSample
             };
             MergebleGridBoxConfig gridBoxConfig = new MergebleGridBoxConfig(33, colSize, false, true);
 
-
+            // ヘッダー設定
             margableDataGridView.HeaderConfigList = headerConfigList;
+            // グリッドボックス設定
             margableDataGridView.GridBoxConfig = gridBoxConfig;
+            // データソース設定
             margableDataGridView.DataSource = dataTable;
+            // 固定列数設定
             margableDataGridView.FrozenCount = 2;
+            // 表示更新
             margableDataGridView.Update();
         }
 

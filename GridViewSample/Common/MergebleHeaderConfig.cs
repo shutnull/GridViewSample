@@ -39,17 +39,5 @@ namespace GridViewSample.Common
         /// 行サイズ
         /// </summary>
         public double RowSize = double.NaN;
-
-        /// <summary>
-        /// セルの結合（水平方向）
-        /// 右方向に結合するセルの数を指定
-        /// </summary>
-        //public int ColSpan = 0;
-
-        /// <summary>
-        /// セルの結合（垂直方向）
-        /// 下方向に結合するセルの数を指定
-        /// </summary>
-        //public int RowSpan = 0;
     }
 }
