@@ -15,10 +15,10 @@ namespace GridViewSample.UserCtrl
     {
         [Browsable(true)]
         [Description("ヘッダー背景色")]
-        public Color HeaderBackColor { get; set; } = Color.FromArgb(0xFF, 0x01, 0x25, 0x97);
+        public Color BackColor { get; set; } = Color.FromArgb(0xFF, 0x01, 0x25, 0x97);
         [Browsable(true)]
         [Description("ヘッダー前景色")]
-        public Color HeadeForeColor { get; set; } = Colors.White;
+        public Color ForeColor { get; set; } = Colors.White;
 
         [Browsable(true)]
         [Description("スクロールしない固定行数")]
@@ -128,9 +128,9 @@ namespace GridViewSample.UserCtrl
                 BorderThickness = new Thickness(1),
                 BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
                 // 背景色
-                Background = new SolidColorBrush(HeaderBackColor),
+                Background = new SolidColorBrush(BackColor),
                 // 前景色
-                Foreground = new SolidColorBrush(HeadeForeColor),
+                Foreground = new SolidColorBrush(ForeColor),
                 // テキスト表示位置
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center

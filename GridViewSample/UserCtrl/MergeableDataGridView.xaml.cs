@@ -47,7 +47,7 @@ namespace GridViewSample.UserCtrl
         public Color HeaderBackColor { get; set; } = Color.FromArgb(0xFF, 0x01, 0x25, 0x97);
         [Browsable(true)]
         [Description("ヘッダー前景色")]
-        public Color HeadeForeColor { get; set; } = Colors.White;
+        public Color HeaderForeColor { get; set; } = Colors.White;
 
         [Browsable(true)]
         [Description("グリッドボックス背景色")]
@@ -86,8 +86,8 @@ namespace GridViewSample.UserCtrl
         public void Update()
         {
             // ヘッダーの設定
-            Header.HeaderBackColor = HeaderBackColor;
-            Header.HeadeForeColor = HeadeForeColor;
+            Header.BackColor = HeaderBackColor;
+            Header.ForeColor = HeaderForeColor;
             Header.FrozenCount = FrozenCount;
             Header.HeaderConfigList = HeaderConfigList;
             // ヘッダーを描画して高さを取得する
@@ -95,7 +95,13 @@ namespace GridViewSample.UserCtrl
             HeaderRowSize.Height = new GridLength(hSize, GridUnitType.Pixel);
 
             // グリッドボックスの設定
-
+            GridBox.BackColor = GridBoxBackColor;
+            GridBox.ForeColor = GridBoxForeColor;
+            GridBox.FrozenCount = FrozenCount;
+            GridBox.GridBoxConfig = GridBoxConfig;
+            GridBox.DataSource = DataSource;
+            // グリッドボックスを描画する
+            GridBox.Update();
         }
     }
 }
