@@ -68,62 +68,56 @@ namespace GridViewSample.UserCtrl
             // データ行情報を列挙 
             DataRow[] dataRowArray = DataSource.Rows.Cast<DataRow>().ToArray();
 
+            //CanvasNoFrozen.Height = dataRowArray.Length * GridBoxConfig.RowSize;
+            //CanvasFrozen.Height = dataRowArray.Length * GridBoxConfig.RowSize;
+
             for (int row = 0; row < dataRowArray.Length; row++)
             {
                 double colSize = 0;
                 object[] dataRow = dataRowArray[row].ItemArray;
                 for (int col = 0; col < dataRow.Length; col++)
                 {
-                    int rowCount = 0;
-                    int colCount = 0;
-                    double mergeColSize = 0;
+                    int mergeRowCount = 1;
+
                     // 素直方向に結合するか
                     if (GridBoxConfig.MergeVertical && (row + 1) < dataRowArray.Length)
                     {
                         foreach (DataRow dRow in dataRowArray.Skip(row + 1))
                         {
-                            // 値が同じ行をカウント
-                            rowCount++;
-
                             if (dRow.ItemArray[col] != dataRowArray[row].ItemArray[col])
                             {
                                 break;
                             }
-                        };
-                        row += rowCount;
+
+                            // 値が同じ行をカウント
+                            mergeRowCount++;
+                        }
                     }
-                    else
-                    {
-                        rowCount = 1;
-                    }
+
+                    int mergeColCount = 1;
+                    double mergeColSize = GridBoxConfig.ColumnSize[col];
+
                     // 水平方向に結合するか
-                    mergeColSize = GridBoxConfig.ColumnSize[col];
                     if (GridBoxConfig.MergeHorizontal && (col + 1) < dataRow.Length)
                     {
                         foreach (object dCol in dataRow.Skip(col + 1))
                         {
-                            mergeColSize += GridBoxConfig.ColumnSize[col + colCount + 1];
-                            // 値が同じ列をカウント
-                            colCount++;
-
                             if (dCol != dataRow[col])
                             {
                                 break;
                             }
-                        };
-                        col += colCount;
-                    }
-                    else
-                    {
-                        colCount = 1;
-                    }
 
+                            // 値が同じ列をカウント
+                            mergeColSize += GridBoxConfig.ColumnSize[col + mergeColCount];
+                            mergeColCount++;
+                        }
+                    }
 
                     // 固定列のとき
-                    if (row < FrozenCount)
+                    if (col < FrozenCount)
                     {
-                        // ラベルを取得 GridBoxConfig.ColumnSize[col]
-                        Label label = InitializeLabel(GridBoxConfig.RowSize * rowCount, mergeColSize, GridBoxConfig.RowSize * row, colSize, (string)dataRow[col]);
+                        // ラベルを取得
+                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, GridBoxConfig.RowSize * row, colSize, (string)dataRow[col]);
                         // 固定列用キャンバスに追加
                         CanvasFrozen.Children.Add(label);
                     }
@@ -131,10 +125,12 @@ namespace GridViewSample.UserCtrl
                     else
                     {
                         // ラベルを取得
-                        Label label = InitializeLabel(GridBoxConfig.RowSize * rowCount, mergeColSize, GridBoxConfig.RowSize * row, colSize, (string)dataRow[col]);
+                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, GridBoxConfig.RowSize * row, colSize - wSize, (string)dataRow[col]);
                         // スクロール対処用キャンバスに追加
                         CanvasNoFrozen.Children.Add(label);
                     }
+                    row += mergeRowCount;
+                    col += mergeColCount;
                     colSize += mergeColSize;
                 }
             }
@@ -184,17 +180,26 @@ namespace GridViewSample.UserCtrl
 
         private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void Label_MouseLeave(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void Label_MouseEnter(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+        }
+
+
+
+        /// <summary>
+        /// スクロールイベントをハンドルします。
+        /// </summary>
+        public event EventHandler<ScrollChangedEventArgs> ScrollChanged;
+        private void HVScrollBar_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            VScrollBar.ScrollToVerticalOffset(e.VerticalOffset);
+            ScrollChanged?.Invoke(this, e);
         }
 
 

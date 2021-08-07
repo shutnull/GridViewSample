@@ -13,7 +13,7 @@
             <RowDefinition x:Name="HeaderRowSize" Height="66"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <local:MargableHeader x:Name="Header"/>
-        <local:MargableGridBox x:Name="GridBox"/>
+        <local:MargableHeader x:Name="Header" Grid.Row="0"/>
+        <local:MargableGridBox x:Name="GridBox" ScrollChanged="GridBox_ScrollChanged" Grid.Row="1"/>
     </Grid>
 </UserControl>

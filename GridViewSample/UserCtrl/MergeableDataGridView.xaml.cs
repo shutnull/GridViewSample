@@ -103,5 +103,16 @@ namespace GridViewSample.UserCtrl
             // グリッドボックスを描画する
             GridBox.Update();
         }
+
+        /// <summary>
+        /// データグリッドのスクロール
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            Header.ScrollToHorizontal(e.HorizontalOffset);
+            Header.ScrollToVertical(e.VerticalOffset);
+        }
     }
 }

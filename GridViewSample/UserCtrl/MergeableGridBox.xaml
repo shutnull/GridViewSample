@@ -11,8 +11,10 @@
             <ColumnDefinition x:Name="FrozenSize" Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="CanvasFrozen" Grid.Column="0"/>
-        <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="VScrollBar" Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+            <Canvas x:Name="CanvasFrozen"/>
+        </ScrollViewer>
+        <ScrollViewer x:Name="HVScrollBar" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="HVScrollBar_ScrollChanged">
             <Canvas x:Name="CanvasNoFrozen"/>
         </ScrollViewer>
     </Grid>

@@ -141,5 +141,14 @@ namespace GridViewSample.UserCtrl
 
             return label;
         }
+
+        public void ScrollToHorizontal(double offset)
+        {
+            HScrollBar.ScrollToHorizontalOffset(offset);
+        }
+        public void ScrollToVertical(double offset)
+        {
+            HScrollBar.ScrollToVerticalOffset(offset);
+        }
     }
 }

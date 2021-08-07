@@ -12,7 +12,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Canvas x:Name="CanvasFrozen" Grid.Column="0"/>
-        <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer x:Name="HScrollBar" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
             <Canvas x:Name="CanvasNoFrozen"/>
         </ScrollViewer>
     </Grid>
