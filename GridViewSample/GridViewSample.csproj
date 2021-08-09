@@ -68,6 +68,18 @@
     <Compile Include="UserCtrl\MergeableGridBox.xaml.cs">
       <DependentUpon>MergeableGridBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserCtrl\MergeableGridItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserCtrl\MergeableGridItem.Designer.cs">
+      <DependentUpon>MergeableGridItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserCtrl\MergeableGridItemChildren.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserCtrl\MergeableGridItemChildren.Designer.cs">
+      <DependentUpon>MergeableGridItemChildren.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserCtrl\MergeableHeader.xaml.cs">
       <DependentUpon>MergeableHeader.xaml</DependentUpon>
     </Compile>

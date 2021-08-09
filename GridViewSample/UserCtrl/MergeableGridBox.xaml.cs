@@ -71,6 +71,8 @@ namespace GridViewSample.UserCtrl
             //CanvasNoFrozen.Height = dataRowArray.Length * GridBoxConfig.RowSize;
             //CanvasFrozen.Height = dataRowArray.Length * GridBoxConfig.RowSize;
 
+
+            bool[] lastRow = new bool[dataRowArray[0].ItemArray.Length];
             for (int row = 0; row < dataRowArray.Length; row++)
             {
                 double colSize = 0;
@@ -79,12 +81,17 @@ namespace GridViewSample.UserCtrl
                 {
                     int mergeRowCount = 1;
 
+                    if (lastRow[col])
+                    {
+                        continue;
+                    }
+
                     // 素直方向に結合するか
                     if (GridBoxConfig.MergeVertical && (row + 1) < dataRowArray.Length)
                     {
                         foreach (DataRow dRow in dataRowArray.Skip(row + 1))
                         {
-                            if (dRow.ItemArray[col] != dataRowArray[row].ItemArray[col])
+                            if ((string)dRow.ItemArray[col] != (string)dataRowArray[row].ItemArray[col])
                             {
                                 break;
                             }
@@ -102,7 +109,7 @@ namespace GridViewSample.UserCtrl
                     {
                         foreach (object dCol in dataRow.Skip(col + 1))
                         {
-                            if (dCol != dataRow[col])
+                            if ((string)dCol != (string)dataRow[col])
                             {
                                 break;
                             }
@@ -129,7 +136,8 @@ namespace GridViewSample.UserCtrl
                         // スクロール対処用キャンバスに追加
                         CanvasNoFrozen.Children.Add(label);
                     }
-                    row += mergeRowCount;
+                    lastRow[col] = mergeRowCount > 1;
+                    //row += mergeRowCount;
                     col += mergeColCount;
                     colSize += mergeColSize;
                 }
