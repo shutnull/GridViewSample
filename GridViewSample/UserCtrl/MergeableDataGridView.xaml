@@ -14,6 +14,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <local:MargableHeader x:Name="Header" Grid.Row="0"/>
-        <local:MargableGridBox x:Name="GridBox" ScrollChanged="GridBox_ScrollChanged" Grid.Row="1"/>
+        <local:MargableGridBox x:Name="GridBox" Grid.Row="1"/>
+        <ScrollViewer x:Name="HVScrollBar" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="HVScrollBar_ScrollChanged">
+            <TextBlock x:Name="DmyControl"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>

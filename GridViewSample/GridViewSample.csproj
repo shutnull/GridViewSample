@@ -68,17 +68,11 @@
     <Compile Include="UserCtrl\MergeableGridBox.xaml.cs">
       <DependentUpon>MergeableGridBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserCtrl\MergeableGridItem.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="UserCtrl\MergeableGridItem.xaml.cs">
+      <DependentUpon>MergeableGridItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserCtrl\MergeableGridItem.Designer.cs">
-      <DependentUpon>MergeableGridItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserCtrl\MergeableGridItemChildren.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserCtrl\MergeableGridItemChildren.Designer.cs">
-      <DependentUpon>MergeableGridItemChildren.cs</DependentUpon>
+    <Compile Include="UserCtrl\MergeableGridItemChildren.xaml.cs">
+      <DependentUpon>MergeableGridItemChildren.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserCtrl\MergeableHeader.xaml.cs">
       <DependentUpon>MergeableHeader.xaml</DependentUpon>
@@ -114,6 +108,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserCtrl\MergeableGridBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserCtrl\MergeableGridItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserCtrl\MergeableGridItemChildren.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

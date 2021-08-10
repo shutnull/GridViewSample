@@ -102,17 +102,22 @@ namespace GridViewSample.UserCtrl
             GridBox.DataSource = DataSource;
             // グリッドボックスを描画する
             GridBox.Update();
+
+            // TODO：DmyControlに高さと横幅を設定する
+            DmyControl.Height = GridBoxConfig.RowSize * DataSource.Rows.Count;
+            DmyControl.Width = HeaderConfigList.Select(list => list.Items.Sum(item => item?.ColumnSize ?? 0)).Max();
         }
 
         /// <summary>
-        /// データグリッドのスクロール
+        /// スクロール連動
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GridBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        private void HVScrollBar_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             Header.ScrollToHorizontal(e.HorizontalOffset);
-            Header.ScrollToVertical(e.VerticalOffset);
+            //GridBox.ScrollToHorizontal(e.HorizontalOffset);
+            //GridBox.ScrollToVertical(e.VerticalOffset);
         }
     }
 }
