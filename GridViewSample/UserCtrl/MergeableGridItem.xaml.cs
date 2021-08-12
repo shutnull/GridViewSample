@@ -1,20 +1,12 @@
 ﻿using GridViewSample.Common;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GridViewSample.UserCtrl
 {
@@ -23,6 +15,13 @@ namespace GridViewSample.UserCtrl
     /// </summary>
     public partial class MergeableGridItem : UserControl
     {
+        [Browsable(true)]
+        [Description("スクロールしない固定領域のサイズ")]
+        public double FrozenWidth { get; set; } = 200;
+        [Browsable(true)]
+        [Description("スクロール領域のサイズ")]
+        public double NoFrozenWidth { get; set; } = 200;
+
         [Browsable(true)]
         [Description("グリッドボックス背景色")]
         public Color BackColor { get; set; } = Colors.White;
@@ -40,54 +39,40 @@ namespace GridViewSample.UserCtrl
 
         [Browsable(true)]
         [Description("データソース")]
-        public DataTable DataSource { get; set; } = new DataTable();
+        public DataRow[] DataSource { get; set; } = Array.Empty<DataRow>();
 
         public MergeableGridItem()
         {
             InitializeComponent();
         }
 
-        private void Update()
+        public void Update()
         {
-            // 列サイズの設定がされていない場合処理しない
-            if (GridBoxConfig.ColumnSize.Length <= 0)
-            {
-                return;
-            }
+            FrozenSize.Width = new GridLength(FrozenWidth, GridUnitType.Pixel);
+            CanvasNoFrozen.Width = NoFrozenWidth;
 
-            // スクロールしない固定領域のサイズを取得・設定する
-            double wSize = GridBoxConfig.ColumnSize.Take(FrozenCount).Sum();
-            FrozenSize.Width = new GridLength(wSize, GridUnitType.Pixel);
-            // スクロール領域のサイズを取得・設定する
-            CanvasNoFrozen.Width = GridBoxConfig.ColumnSize.Skip(FrozenCount).Sum();
+            int rowMax = DataSource.Length;
+            int colMax = GridBoxConfig.ColumnSize.Length;
+            double hSize = rowMax * GridBoxConfig.RowSize;
+            double[] lastSumRow = new double[colMax];
 
-            // データ行情報を列挙 
-            DataRow[] dataRowArray = DataSource.Rows.Cast<DataRow>().ToArray();
-
-            //CanvasNoFrozen.Height = GridBoxConfig.RowSize * DataSource.Rows.Count;
-            //CanvasFrozen.Height = GridBoxConfig.RowSize * DataSource.Rows.Count;
-
-
-            bool[] lastRow = new bool[dataRowArray[0].ItemArray.Length];
-            for (int row = 0; row < dataRowArray.Length; row++)
+            for (int row = 0; row < rowMax; row++)
             {
                 double colSize = 0;
-                object[] dataRow = dataRowArray[row].ItemArray;
-                for (int col = 0; col < dataRow.Length; col++)
+
+                for (int col = 0; col < colMax; col++)
                 {
+                    DataRow dataRow = DataSource[row];
+                    bool mCCntFlag = GridBoxConfig.MergeColCount == -1 || GridBoxConfig.MergeColCount >= col;
+
                     int mergeRowCount = 1;
 
-                    if (lastRow[col])
-                    {
-                        continue;
-                    }
-
                     // 素直方向に結合するか
-                    if (GridBoxConfig.MergeVertical && (row + 1) < dataRowArray.Length)
+                    if (GridBoxConfig.MergeVertical && mCCntFlag && (row + 1) < DataSource.Length)
                     {
-                        foreach (DataRow dRow in dataRowArray.Skip(row + 1))
+                        foreach (DataRow dRow in DataSource.Skip(row + 1))
                         {
-                            if ((string)dRow.ItemArray[col] != (string)dataRowArray[row].ItemArray[col])
+                            if ((string)dRow[col] != (string)dataRow[col])
                             {
                                 break;
                             }
@@ -97,15 +82,16 @@ namespace GridViewSample.UserCtrl
                         }
                     }
 
+
                     int mergeColCount = 1;
                     double mergeColSize = GridBoxConfig.ColumnSize[col];
 
                     // 水平方向に結合するか
-                    if (GridBoxConfig.MergeHorizontal && (col + 1) < dataRow.Length)
+                    if (GridBoxConfig.MergeHorizontal && mCCntFlag && (col + 1) < dataRow.ItemArray.Length)
                     {
-                        foreach (object dCol in dataRow.Skip(col + 1))
+                        foreach (string dCol in dataRow.ItemArray.Skip(col + 1))
                         {
-                            if ((string)dCol != (string)dataRow[col])
+                            if (dCol != (string)dataRow[col])
                             {
                                 break;
                             }
@@ -120,7 +106,7 @@ namespace GridViewSample.UserCtrl
                     if (col < FrozenCount)
                     {
                         // ラベルを取得
-                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, GridBoxConfig.RowSize * row, colSize, (string)dataRow[col]);
+                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, lastSumRow[col], colSize, (string)dataRow[col]);
                         // 固定列用キャンバスに追加
                         CanvasFrozen.Children.Add(label);
                     }
@@ -128,17 +114,17 @@ namespace GridViewSample.UserCtrl
                     else
                     {
                         // ラベルを取得
-                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, GridBoxConfig.RowSize * row, colSize - wSize, (string)dataRow[col]);
+                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, lastSumRow[col], colSize - FrozenWidth, (string)dataRow[col]);
                         // スクロール対処用キャンバスに追加
                         CanvasNoFrozen.Children.Add(label);
                     }
-                    lastRow[col] = mergeRowCount > 1;
-                    //row += mergeRowCount;
-                    col += mergeColCount;
+                    lastSumRow[col] += mergeRowCount * GridBoxConfig.RowSize;
+                    col += mergeColCount - 1;
                     colSize += mergeColSize;
+
+
                 }
             }
-
         }
 
         /// <summary>
@@ -208,11 +194,6 @@ namespace GridViewSample.UserCtrl
         public void ScrollToHorizontal(double offset)
         {
             HVScrollBar.ScrollToHorizontalOffset(offset);
-        }
-        public void ScrollToVertical(double offset)
-        {
-            HVScrollBar.ScrollToVerticalOffset(offset);
-            VScrollBar.ScrollToVerticalOffset(offset);
         }
 
 

@@ -68,8 +68,8 @@
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private UserCtrl.MargableDataGridView margableDataGridView;
         private System.Windows.Forms.Button button1;
+        private UserCtrl.MargableDataGridView margableDataGridView;
     }
 }
 

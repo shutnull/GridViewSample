@@ -15,12 +15,14 @@ namespace GridViewSample.Common
         /// <param name="columnSize">列サイズ</param>
         /// <param name="mergeHorizontal">セルの結合（水平方向）</param>
         /// <param name="mergeVertical">セルの結合（垂直方向）</param>
-        public MergebleGridBoxConfig(double rowSize, double[] columnSize, bool mergeHorizontal = false, bool mergeVertical = false)
+        /// <param name="mergeColCount">セル結合を有効にする最後の列のインデックスを設定する</param>
+        public MergebleGridBoxConfig(double rowSize, double[] columnSize, bool mergeHorizontal, bool mergeVertical, int mergeColCount)
         {
             RowSize = rowSize;
             ColumnSize = columnSize;
             MergeHorizontal = mergeHorizontal;
             MergeVertical = mergeVertical;
+            MergeColCount = mergeColCount;
         }
 
         /// <summary>
@@ -44,5 +46,11 @@ namespace GridViewSample.Common
         /// 下方向に結合するか
         /// </summary>
         public bool MergeVertical = false;
+
+        /// <summary>
+        /// セル結合を有効にする最後の列のインデックスを設定する
+        /// 制限しない場合「-1」を設定
+        /// </summary>
+        public int MergeColCount = -1;
     }
 }

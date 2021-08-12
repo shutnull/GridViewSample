@@ -73,6 +73,88 @@ namespace GridViewSample
             }
             dataTable.Rows.Add(dataRow);
             #endregion
+            #region test
+            dataRow = dataTable.NewRow();
+            for (int iLoop = 0; iLoop < headerCount; iLoop++)
+            {
+                if (iLoop < 5)
+                {
+                    dataRow[iLoop] = "データ" + iLoop;
+                }
+                else if (iLoop == 7 || iLoop == 9)
+                {
+                    dataRow[iLoop] = "データ" + iLoop;
+                }
+                else
+                {
+                    dataRow[iLoop] = "データ：" + iLoop;
+                }
+            }
+            dataTable.Rows.Add(dataRow);
+            dataRow = dataTable.NewRow();
+            for (int iLoop = 0; iLoop < headerCount; iLoop++)
+            {
+                dataRow[iLoop] = "_データ" + iLoop;
+            }
+            dataTable.Rows.Add(dataRow);
+            dataRow = dataTable.NewRow();
+            for (int iLoop = 0; iLoop < headerCount; iLoop++)
+            {
+                if (iLoop < 5)
+                {
+                    dataRow[iLoop] = "_データ" + iLoop;
+                }
+                else if (iLoop == 8 || iLoop == 10)
+                {
+                    dataRow[iLoop] = "_データ" + iLoop;
+                }
+                else
+                {
+                    dataRow[iLoop] = "_データ：" + iLoop;
+                }
+            }
+            dataTable.Rows.Add(dataRow);
+            dataRow = dataTable.NewRow();
+            for (int iLoop = 0; iLoop < headerCount; iLoop++)
+            {
+                if (iLoop < 5)
+                {
+                    dataRow[iLoop] = "データ" + iLoop;
+                }
+                else if (iLoop == 7 || iLoop == 9)
+                {
+                    dataRow[iLoop] = "データ" + iLoop;
+                }
+                else
+                {
+                    dataRow[iLoop] = "データ：" + iLoop;
+                }
+            }
+            dataTable.Rows.Add(dataRow);
+            dataRow = dataTable.NewRow();
+            for (int iLoop = 0; iLoop < headerCount; iLoop++)
+            {
+                dataRow[iLoop] = "_データ" + iLoop;
+            }
+            dataTable.Rows.Add(dataRow);
+            dataRow = dataTable.NewRow();
+            for (int iLoop = 0; iLoop < headerCount; iLoop++)
+            {
+                if (iLoop < 5)
+                {
+                    dataRow[iLoop] = "_データ" + iLoop;
+                }
+                else if (iLoop == 8 || iLoop == 10)
+                {
+                    dataRow[iLoop] = "_データ" + iLoop;
+                }
+                else
+                {
+                    dataRow[iLoop] = "_データ：" + iLoop;
+                }
+            }
+            dataTable.Rows.Add(dataRow);
+            #endregion
 
             List<MergeableHeaderConfig> headerConfigList = new List<MergeableHeaderConfig>();
             #region ヘッダー作る
@@ -146,7 +228,7 @@ namespace GridViewSample
             {
                 100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100
             };
-            MergebleGridBoxConfig gridBoxConfig = new MergebleGridBoxConfig(33, colSize, false, true);
+            MergebleGridBoxConfig gridBoxConfig = new MergebleGridBoxConfig(33, colSize, false, true, 7);
 
             // ヘッダー設定
             margableDataGridView.HeaderConfigList = headerConfigList;

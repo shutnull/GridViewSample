@@ -1,19 +1,10 @@
 ﻿using GridViewSample.Common;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Media;
 
 namespace GridViewSample.UserCtrl
@@ -26,12 +17,9 @@ namespace GridViewSample.UserCtrl
         private Color _BackColor = Color.FromArgb(0xFF, 0x80, 0x80, 0x80);
         [Browsable(true)]
         [Description("背景色")]
-        public Color BackColor 
-        { 
-            get
-            {
-                return _BackColor;
-            }
+        public Color BackColor
+        {
+            get => _BackColor;
             set
             {
                 _BackColor = value;
@@ -103,9 +91,11 @@ namespace GridViewSample.UserCtrl
             // グリッドボックスを描画する
             GridBox.Update();
 
-            // TODO：DmyControlに高さと横幅を設定する
-            DmyControl.Height = GridBoxConfig.RowSize * DataSource.Rows.Count;
+            DmyControl.Height = GridBoxConfig.RowSize * DataSource.Rows.Count + hSize;
             DmyControl.Width = HeaderConfigList.Select(list => list.Items.Sum(item => item?.ColumnSize ?? 0)).Max();
+
+            Header.Margin = new Thickness(0, 0, DmyControl.Height > ActualHeight ? 17 : 0, 0);
+            GridBox.Margin = new Thickness(0, 0, DmyControl.Height > ActualHeight ? 17 : 0, DmyControl.Width > ActualWidth ? 17 : 0);
         }
 
         /// <summary>
@@ -116,8 +106,13 @@ namespace GridViewSample.UserCtrl
         private void HVScrollBar_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             Header.ScrollToHorizontal(e.HorizontalOffset);
-            //GridBox.ScrollToHorizontal(e.HorizontalOffset);
-            //GridBox.ScrollToVertical(e.VerticalOffset);
+            GridBox.ScrollToHorizontal(e.HorizontalOffset);
+            GridBox.ScrollToVertical(e.VerticalOffset);
+        }
+
+        private void Grid_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            HVScrollBar.ScrollToVerticalOffset(-e.Delta);
         }
     }
 }

@@ -1,20 +1,12 @@
 ﻿using GridViewSample.Common;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GridViewSample.UserCtrl
 {
@@ -53,8 +45,73 @@ namespace GridViewSample.UserCtrl
         /// </summary>
         public void Update()
         {
-            //ItemPanel
+            // 列サイズの設定がされていない場合処理しない
+            if (GridBoxConfig.ColumnSize.Length <= 0)
+            {
+                return;
+            }
+
+            // スクロールしない固定領域のサイズを取得・設定する
+            double frozenSize = GridBoxConfig.ColumnSize.Take(FrozenCount).Sum();
+            // スクロール領域のサイズを取得・設定する
+            double noFrozenSize = GridBoxConfig.ColumnSize.Skip(FrozenCount).Sum();
+
+            // データ行情報を列挙 
+            DataRow[] dataRowArray = DataSource.Rows.Cast<DataRow>().ToArray();
+
+            for (int row = 0; row < dataRowArray.Length; row++)
+            {
+                int mergeRowCount = 1;
+
+                // 素直方向に結合するか
+                if (GridBoxConfig.MergeVertical && GridBoxConfig.MergeColCount != 0 && (row + 1) < dataRowArray.Length)
+                {
+                    foreach (DataRow dRow in dataRowArray.Skip(row + 1))
+                    {
+                        if ((string)dRow[0] != (string)dataRowArray[row].ItemArray[0])
+                        {
+                            break;
+                        }
+
+                        // 値が同じ行をカウント
+                        mergeRowCount++;
+                    }
+                }
+
+                // アイテム作成
+                MergeableGridItem gridItem = new MergeableGridItem()
+                {
+                    Height = GridBoxConfig.RowSize * mergeRowCount,
+                    FrozenWidth = frozenSize,
+                    NoFrozenWidth = noFrozenSize,
+                    BackColor = BackColor,
+                    ForeColor = ForeColor,
+                    FrozenCount = FrozenCount,
+                    GridBoxConfig = GridBoxConfig,
+                    DataSource = dataRowArray.Skip(row).Take(mergeRowCount).ToArray()
+                };
+                gridItem.Update();
+
+                // スタックパネルに追加
+                ItemPanel.Children.Add(gridItem);
+
+                // カウンターを調整
+                row += mergeRowCount - 1;
+            }
         }
+
+        public void ScrollToHorizontal(double offset)
+        {
+            foreach (MergeableGridItem gridItem in ItemPanel.Children)
+            {
+                gridItem.ScrollToHorizontal(offset);
+            }
+        }
+        public void ScrollToVertical(double offset)
+        {
+            VScrollBar.ScrollToVerticalOffset(offset);
+        }
+
 
         /// <summary>
         /// クリックイベントをハンドルします。
@@ -64,8 +121,6 @@ namespace GridViewSample.UserCtrl
         {
             Click?.Invoke(this, e);
         }
-
-
 
 
 
