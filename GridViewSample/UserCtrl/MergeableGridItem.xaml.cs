@@ -43,10 +43,13 @@ namespace GridViewSample.UserCtrl
         public MergeableGridItem()
         {
             InitializeComponent();
+            MouseEnter += UserControl_MouseEnter;
+            MouseLeave += UserControl_MouseLeave;
         }
 
         public void Update()
         {
+            Background = new SolidColorBrush(BackColor);
             FrozenSize.Width = new GridLength(FrozenWidth, GridUnitType.Pixel);
             CanvasNoFrozen.Width = NoFrozenWidth;
 
@@ -131,7 +134,7 @@ namespace GridViewSample.UserCtrl
                     BorderThickness = new Thickness(1),
                     BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
                     // 背景色
-                    Background = new SolidColorBrush(BackColor),
+                    Background = Brushes.Transparent,
                     // 表示位置
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
@@ -166,7 +169,7 @@ namespace GridViewSample.UserCtrl
                     BorderThickness = new Thickness(1),
                     BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
                     // 背景色
-                    Background = new SolidColorBrush(BackColor),
+                    Background = Brushes.Transparent,
                     // 前景色
                     Foreground = new SolidColorBrush(ForeColor),
                     // テキスト表示位置
@@ -175,8 +178,8 @@ namespace GridViewSample.UserCtrl
                 };
             }
 
-            ctr.MouseEnter += Label_MouseEnter;
-            ctr.MouseLeave += Label_MouseLeave;
+            //ctr.MouseEnter += Label_MouseEnter;
+            //ctr.MouseLeave += Label_MouseLeave;
             ctr.PreviewMouseLeftButtonDown += UIElement_PreviewMouseLeftButtonDown;
 
             // キャンバス上の位置設定
@@ -204,32 +207,42 @@ namespace GridViewSample.UserCtrl
         }
 
 
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Background = new SolidColorBrush(BackColor);
+        }
+
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
+        }
+
         private void Label_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (sender.GetType() == typeof(Label))
-            {
-                Label ctr = (Label)sender;
-                ctr.Background = new SolidColorBrush(BackColor);
-            }
-            else
-            {
-                Border ctr = (Border)sender;
-                ctr.Background = new SolidColorBrush(BackColor);
-            }
+            //if (sender.GetType() == typeof(Label))
+            //{
+            //    Label ctr = (Label)sender;
+            //    ctr.Background = new SolidColorBrush(BackColor);
+            //}
+            //else
+            //{
+            //    Border ctr = (Border)sender;
+            //    ctr.Background = new SolidColorBrush(BackColor);
+            //}
         }
 
         private void Label_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (sender.GetType() == typeof(Label))
-            {
-                Label ctr = (Label)sender;
-                ctr.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
-            }
-            else
-            {
-                Border ctr = (Border)sender;
-                ctr.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
-            }
+            //if (sender.GetType() == typeof(Label))
+            //{
+            //    Label ctr = (Label)sender;
+            //    ctr.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
+            //}
+            //else
+            //{
+            //    Border ctr = (Border)sender;
+            //    ctr.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
+            //}
         }
 
         public void ScrollToHorizontal(double offset)
