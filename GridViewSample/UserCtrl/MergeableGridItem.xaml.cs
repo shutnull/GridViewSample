@@ -1,5 +1,4 @@
-﻿using GridViewSample.Common;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -82,113 +81,155 @@ namespace GridViewSample.UserCtrl
                         }
                     }
 
-
-                    int mergeColCount = 1;
-                    double mergeColSize = GridBoxConfig.ColumnSize[col];
-
-                    // 水平方向に結合するか
-                    if (GridBoxConfig.MergeHorizontal && mCCntFlag && (col + 1) < dataRow.ItemArray.Length)
-                    {
-                        foreach (string dCol in dataRow.ItemArray.Skip(col + 1))
-                        {
-                            if (dCol != (string)dataRow[col])
-                            {
-                                break;
-                            }
-
-                            // 値が同じ列をカウント
-                            mergeColSize += GridBoxConfig.ColumnSize[col + mergeColCount];
-                            mergeColCount++;
-                        }
-                    }
+                    double gcColSize = GridBoxConfig.ColumnSize[col];
 
                     // 固定列のとき
                     if (col < FrozenCount)
                     {
-                        // ラベルを取得
-                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, lastSumRow[col], colSize, (string)dataRow[col]);
+                        // コントロールを取得
+                        UIElement ctr = InitializeControl(col, GridBoxConfig.RowSize * mergeRowCount, gcColSize, lastSumRow[col], colSize, (string)dataRow[col]);
                         // 固定列用キャンバスに追加
-                        CanvasFrozen.Children.Add(label);
+                        CanvasFrozen.Children.Add(ctr);
                     }
                     // スクロール対象列のとき
                     else
                     {
-                        // ラベルを取得
-                        Label label = InitializeLabel(GridBoxConfig.RowSize * mergeRowCount, mergeColSize, lastSumRow[col], colSize - FrozenWidth, (string)dataRow[col]);
+                        // コントロールを取得
+                        UIElement ctr = InitializeControl(col, GridBoxConfig.RowSize * mergeRowCount, gcColSize, lastSumRow[col], colSize - FrozenWidth, (string)dataRow[col]);
                         // スクロール対処用キャンバスに追加
-                        CanvasNoFrozen.Children.Add(label);
+                        CanvasNoFrozen.Children.Add(ctr);
                     }
                     lastSumRow[col] += mergeRowCount * GridBoxConfig.RowSize;
-                    col += mergeColCount - 1;
-                    colSize += mergeColSize;
-
-
+                    colSize += gcColSize;
                 }
             }
         }
 
         /// <summary>
-        /// ラベルを取得する
+        /// コントロールを取得する
         /// </summary>
-        /// <param name="height">ラベルの高さ</param>
-        /// <param name="width">ラベルの幅</param>
+        /// <param name="colIndex">処理対象の列</param>
+        /// <param name="height">高さ</param>
+        /// <param name="width">幅</param>
         /// <param name="canvasTop">キャンバス上の位置(Y軸方向左上)</param>
         /// <param name="canvasLeft">キャンバス上の位置(X軸方向左上)</param>
-        /// <param name="text">ラベルに表示する文字列</param>
+        /// <param name="text">表示する文字列</param>
         /// <returns></returns>
-        private Label InitializeLabel(double height, double width, double canvasTop, double canvasLeft, string text)
+        private UIElement InitializeControl(int colIndex, double height, double width, double canvasTop, double canvasLeft, string text)
         {
-            Label label = new Label
-            {
-                // 高さ
-                Height = height,
-                // 幅
-                Width = width,
-                // 文字列
-                Content = text,
-                // ボーダーの設定
-                BorderThickness = new Thickness(1),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
-                // 背景色
-                Background = new SolidColorBrush(BackColor),
-                // 前景色
-                Foreground = new SolidColorBrush(ForeColor),
-                // テキスト表示位置
-                HorizontalContentAlignment = HorizontalAlignment.Center,
-                VerticalContentAlignment = VerticalAlignment.Center
-            };
+            UIElement ctr;
 
-            label.MouseEnter += Label_MouseEnter;
-            label.MouseLeave += Label_MouseLeave;
-            label.PreviewMouseLeftButtonDown += Label_PreviewMouseLeftButtonDown;
+            if (GridBoxConfig.DispChekBoxColIndex.Where(index => index == colIndex).Count() > 0)
+            {
+                ctr = new Border
+                {
+                    // 高さ
+                    Height = height,
+                    // 幅
+                    Width = width,
+                    // ボーダーの設定
+                    BorderThickness = new Thickness(1),
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
+                    // 背景色
+                    Background = new SolidColorBrush(BackColor),
+                    // 表示位置
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
+                CheckBox cb = new CheckBox
+                {
+                    // ボーダーのClickイベントでチェック状態を入れ替える為、ヒット判定を不可にしておく
+                    IsHitTestVisible = false,
+                    // 表示位置
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    // チェックボックスサイズ調整
+                    LayoutTransform = new ScaleTransform()
+                    {
+                        ScaleX = 1.1,
+                        ScaleY = 1.1
+                    }
+                };
+                ((Border)ctr).Child = cb;
+            }
+            else
+            {
+                ctr = new Label
+                {
+                    // 高さ
+                    Height = height,
+                    // 幅
+                    Width = width,
+                    // 文字列
+                    Content = text,
+                    // ボーダーの設定
+                    BorderThickness = new Thickness(1),
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
+                    // 背景色
+                    Background = new SolidColorBrush(BackColor),
+                    // 前景色
+                    Foreground = new SolidColorBrush(ForeColor),
+                    // テキスト表示位置
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center
+                };
+            }
+
+            ctr.MouseEnter += Label_MouseEnter;
+            ctr.MouseLeave += Label_MouseLeave;
+            ctr.PreviewMouseLeftButtonDown += UIElement_PreviewMouseLeftButtonDown;
 
             // キャンバス上の位置設定
-            Canvas.SetTop(label, canvasTop);
-            Canvas.SetLeft(label, canvasLeft);
+            Canvas.SetTop(ctr, canvasTop);
+            Canvas.SetLeft(ctr, canvasLeft);
 
-            return label;
+            return ctr;
         }
 
         /// <summary>
         /// クリックイベントをハンドルします。
         /// </summary>
         public event EventHandler<RoutedEventArgs> Click;
-        private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void UIElement_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // クリックされたコントロールがボーダーの時
+            if (sender.GetType() == typeof(Border))
+            {
+                // チェックボックスのチェックを入れ替える
+                Border ctr = (Border)sender;
+                CheckBox cb = ((CheckBox)ctr.Child);
+                cb.IsChecked = !cb.IsChecked;
+            }
             Click?.Invoke(this, e);
         }
 
 
         private void Label_MouseLeave(object sender, MouseEventArgs e)
         {
-            Label label = (Label)sender;
-            label.Background = new SolidColorBrush(BackColor);
+            if (sender.GetType() == typeof(Label))
+            {
+                Label ctr = (Label)sender;
+                ctr.Background = new SolidColorBrush(BackColor);
+            }
+            else
+            {
+                Border ctr = (Border)sender;
+                ctr.Background = new SolidColorBrush(BackColor);
+            }
         }
 
         private void Label_MouseEnter(object sender, MouseEventArgs e)
         {
-            Label label = (Label)sender;
-            label.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
+            if (sender.GetType() == typeof(Label))
+            {
+                Label ctr = (Label)sender;
+                ctr.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
+            }
+            else
+            {
+                Border ctr = (Border)sender;
+                ctr.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xF1, 0xFB));
+            }
         }
 
         public void ScrollToHorizontal(double offset)

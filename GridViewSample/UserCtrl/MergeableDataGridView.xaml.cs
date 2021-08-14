@@ -1,4 +1,4 @@
-﻿using GridViewSample.Common;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -115,4 +115,99 @@ namespace GridViewSample.UserCtrl
             HVScrollBar.ScrollToVerticalOffset(-e.Delta);
         }
     }
+
+
+    #region コンフィグクラス - ヘッダー
+    public class MergeableHeaderConfig
+    {
+        /// <summary>
+        /// ヘッダーアイテム設定
+        /// </summary>
+        public MergeableHeaderConfigItem[] Items = Array.Empty<MergeableHeaderConfigItem>();
+    }
+
+    public class MergeableHeaderConfigItem
+    {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="text">ヘッダーに表示するテキスト</param>
+        /// <param name="columnSize">列サイズ</param>
+        /// <param name="rowSize">行サイズ</param>
+        public MergeableHeaderConfigItem(string text, double columnSize, double rowSize)
+        {
+            Text = text;
+            ColumnSize = columnSize;
+            RowSize = rowSize;
+        }
+
+        /// <summary>
+        /// ヘッダーに表示するテキスト
+        /// </summary>
+        public string Text = string.Empty;
+
+        /// <summary>
+        /// 列サイズ
+        /// </summary>
+        public double ColumnSize = double.NaN;
+
+        /// <summary>
+        /// 行サイズ
+        /// </summary>
+        public double RowSize = double.NaN;
+    }
+    #endregion
+
+    #region コンフィグクラス - グリッドボックス
+    public class MergebleGridBoxConfig
+    {
+        public MergebleGridBoxConfig()
+        {
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="rowSize">行サイズ</param>
+        /// <param name="columnSize">列サイズ</param>
+        /// <param name="mergeVertical">セルの結合（垂直方向）</param>
+        /// <param name="mergeColCount">セル結合を有効にする最後の列のインデックスを設定する</param>
+        /// <param name="dispChekBoxColIndex">チェックボックス表示にする列インデックスを指定する</param>
+        public MergebleGridBoxConfig(double rowSize, double[] columnSize, bool mergeVertical = true, int mergeColCount = -1, int[] dispChekBoxColIndex = null)
+        {
+            RowSize = rowSize;
+            ColumnSize = columnSize;
+            MergeVertical = mergeVertical;
+            MergeColCount = mergeColCount;
+            DispChekBoxColIndex = dispChekBoxColIndex;
+        }
+
+        /// <summary>
+        /// 行サイズ
+        /// </summary>
+        public double RowSize = double.NaN;
+
+        /// <summary>
+        /// 列サイズ
+        /// </summary>
+        public double[] ColumnSize = Array.Empty<double>();
+
+        /// <summary>
+        /// セルの結合（垂直方向）
+        /// 下方向に結合するか
+        /// </summary>
+        public bool MergeVertical = true;
+
+        /// <summary>
+        /// セル結合を有効にする最後の列のインデックスを設定する
+        /// 制限しない場合「-1」を設定
+        /// </summary>
+        public int MergeColCount = -1;
+
+        /// <summary>
+        /// チェックボックス表示にする列インデックスを指定する
+        /// </summary>
+        public int[] DispChekBoxColIndex = null;
+    }
+    #endregion
 }

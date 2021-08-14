@@ -1,4 +1,4 @@
-﻿using GridViewSample.Common;
+﻿using GridViewSample.UserCtrl;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -165,26 +165,26 @@ namespace GridViewSample
             // 一行目
             items1 = new MergeableHeaderConfigItem[headerCount]
             {
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:400, rowSize:33),
-                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:33),
-                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:33),
-                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:300, rowSize:33),
-                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:33),
-                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:66),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:120, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:150, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:50, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:400, rowSize:35),
+                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:35),
+                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:35),
+                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:60, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:300, rowSize:35),
+                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:35),
+                new MergeableHeaderConfigItem(text:"", columnSize:0, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:70),
             };
             headerConfig1 = new MergeableHeaderConfig
             {
@@ -197,21 +197,21 @@ namespace GridViewSample
             {
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
+                new MergeableHeaderConfigItem(text:"", columnSize:120, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
+                new MergeableHeaderConfigItem(text:"", columnSize:150, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
+                new MergeableHeaderConfigItem(text:"", columnSize:50, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
-                new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
-                new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
-                new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
-                new MergeableHeaderConfigItem(text:"ヘッダー\nにゃ", columnSize:100, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
-                new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
-                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:33),
+                new MergeableHeaderConfigItem(text:"ヘッダー\nにゃ", columnSize:100, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:35),
+                new MergeableHeaderConfigItem(text:"", columnSize:60, rowSize:0),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:35),
+                new MergeableHeaderConfigItem(text:"ヘッダー", columnSize:100, rowSize:35),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
                 new MergeableHeaderConfigItem(text:"", columnSize:100, rowSize:0),
@@ -226,9 +226,9 @@ namespace GridViewSample
             // データグリッドの設定
             double[] colSize = new double[headerCount]
             {
-                100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100
+                100,100,120,100,100,150,100,50,100,100,100,100,100,60,100,100,100,100,100,100
             };
-            MergebleGridBoxConfig gridBoxConfig = new MergebleGridBoxConfig(33, colSize, false, true, 7);
+            MergebleGridBoxConfig gridBoxConfig = new MergebleGridBoxConfig(33, colSize, true, 7, new int[] { 7 });
 
             // ヘッダー設定
             margableDataGridView.HeaderConfigList = headerConfigList;
