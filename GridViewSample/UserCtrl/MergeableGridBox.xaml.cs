@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace GridViewSample.UserCtrl
@@ -89,6 +88,7 @@ namespace GridViewSample.UserCtrl
                     GridBoxConfig = GridBoxConfig,
                     DataSource = dataRowArray.Skip(row).Take(mergeRowCount).ToArray()
                 };
+                gridItem.Click += GridItem_Click;
                 gridItem.Update();
 
                 // スタックパネルに追加
@@ -97,6 +97,23 @@ namespace GridViewSample.UserCtrl
                 // カウンターを調整
                 row += mergeRowCount - 1;
             }
+        }
+
+        private MergeableGridItem LastSelectGridItem = null;
+        /// <summary>
+        /// クリックイベントをハンドルします。
+        /// </summary>
+        public event EventHandler<RoutedEventArgs> Click;
+        private void GridItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (LastSelectGridItem != null)
+            {
+                LastSelectGridItem.Background = new SolidColorBrush(BackColor);
+            }
+            LastSelectGridItem = (MergeableGridItem)sender;
+            LastSelectGridItem.Background = new SolidColorBrush(Colors.DodgerBlue);
+
+            Click?.Invoke(this, e);
         }
 
         public void ScrollToHorizontal(double offset)
@@ -110,17 +127,6 @@ namespace GridViewSample.UserCtrl
         {
             VScrollBar.ScrollToVerticalOffset(offset);
         }
-
-
-        /// <summary>
-        /// クリックイベントをハンドルします。
-        /// </summary>
-        public event EventHandler<RoutedEventArgs> Click;
-        private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
-
 
 
         // 選択位置取得？
