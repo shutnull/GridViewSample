@@ -19,6 +19,15 @@ namespace GridViewSample.UserCtrl
         [Browsable(true)]
         [Description("グリッドボックス前景色")]
         public Color ForeColor { get; set; } = Colors.Black;
+        [Browsable(true)]
+        [Description("グリッドボックスボーダー色")]
+        public Color BorderColor { get; set; } = Color.FromRgb(0x80, 0x80, 0x80);
+        [Browsable(true)]
+        [Description("グリッドボックス選択時背景色")]
+        public Color SelectingBackColor { get; set; } = Colors.DodgerBlue;
+        [Browsable(true)]
+        [Description("グリッドボックス選択時前景色")]
+        public Color SelectingForeColor { get; set; } = Colors.White;
 
         [Browsable(true)]
         [Description("スクロールしない固定行数")]
@@ -84,6 +93,7 @@ namespace GridViewSample.UserCtrl
                     NoFrozenWidth = noFrozenSize,
                     BackColor = BackColor,
                     ForeColor = ForeColor,
+                    BorderColor = BorderColor,
                     FrozenCount = FrozenCount,
                     GridBoxConfig = GridBoxConfig,
                     DataSource = dataRowArray.Skip(row).Take(mergeRowCount).ToArray()
@@ -108,10 +118,10 @@ namespace GridViewSample.UserCtrl
         {
             if (LastSelectGridItem != null)
             {
-                LastSelectGridItem.Background = new SolidColorBrush(BackColor);
+                LastSelectGridItem.SelectingChangeColor(BackColor, ForeColor);
             }
             LastSelectGridItem = (MergeableGridItem)sender;
-            LastSelectGridItem.Background = new SolidColorBrush(Colors.DodgerBlue);
+            LastSelectGridItem.SelectingChangeColor(SelectingBackColor, SelectingForeColor);
 
             Click?.Invoke(this, e);
         }

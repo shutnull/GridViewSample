@@ -14,7 +14,7 @@ namespace GridViewSample.UserCtrl
     /// </summary>
     public partial class MargableDataGridView : UserControl
     {
-        private Color _BackColor = Color.FromArgb(0xFF, 0x80, 0x80, 0x80);
+        private Color _BackColor = Color.FromArgb(0xFF, 0x32, 0x32, 0x32);
         [Browsable(true)]
         [Description("背景色")]
         public Color BackColor
@@ -29,6 +29,22 @@ namespace GridViewSample.UserCtrl
                 GridBox.Background = colorBrush;
             }
         }
+        private Color _BorderColor = Color.FromArgb(0xFF, 0x32, 0x32, 0x32);
+        [Browsable(true)]
+        [Description("ボーダー色")]
+        public Color BorderColor
+        {
+            get => _BorderColor;
+            set
+            {
+                _BorderColor = value;
+                BorderBrush = new SolidColorBrush(_BorderColor);
+            }
+        }
+
+        [Browsable(true)]
+        [Description("アイテムのボーダー色")]
+        public Color ItemsBorderColor { get; set; } = Color.FromRgb(0x80, 0x80, 0x80);
 
         [Browsable(true)]
         [Description("ヘッダー背景色")]
@@ -43,6 +59,12 @@ namespace GridViewSample.UserCtrl
         [Browsable(true)]
         [Description("グリッドボックス前景色")]
         public Color GridBoxForeColor { get; set; } = Colors.Black;
+        [Browsable(true)]
+        [Description("グリッドボックス選択時背景色")]
+        public Color GridBoxSelectingBackColor { get; set; } = Colors.DodgerBlue;
+        [Browsable(true)]
+        [Description("グリッドボックス選択時前景色")]
+        public Color GridBoxSelectingForeColor { get; set; } = Colors.White;
 
         [Browsable(true)]
         [Description("スクロールしない固定行数")]
@@ -55,6 +77,10 @@ namespace GridViewSample.UserCtrl
         [Browsable(true)]
         [Description("グリッドボックス設定情報")]
         public MergebleGridBoxConfig GridBoxConfig { get; set; } = new MergebleGridBoxConfig();
+
+        //[Browsable(true)]
+        //[Description("データソースのデータと列を紐づける 未設定で順番に出力する")]
+        //public string[] = Array.Empty<string>();
 
         [Browsable(true)]
         [Description("データソース")]
@@ -76,6 +102,7 @@ namespace GridViewSample.UserCtrl
             // ヘッダーの設定
             Header.BackColor = HeaderBackColor;
             Header.ForeColor = HeaderForeColor;
+            Header.BorderColor = ItemsBorderColor;
             Header.FrozenCount = FrozenCount;
             Header.HeaderConfigList = HeaderConfigList;
             // ヘッダーを描画して高さを取得する
@@ -85,15 +112,19 @@ namespace GridViewSample.UserCtrl
             // グリッドボックスの設定
             GridBox.BackColor = GridBoxBackColor;
             GridBox.ForeColor = GridBoxForeColor;
+            GridBox.BorderColor = ItemsBorderColor;
+            GridBox.SelectingBackColor = GridBoxSelectingBackColor;
+            GridBox.SelectingForeColor = GridBoxSelectingForeColor;
             GridBox.FrozenCount = FrozenCount;
             GridBox.GridBoxConfig = GridBoxConfig;
             GridBox.DataSource = DataSource;
             // グリッドボックスを描画する
             GridBox.Update();
 
+            // 高さ等の調整
             DmyControl.Height = GridBoxConfig.RowSize * DataSource.Rows.Count + hSize;
             DmyControl.Width = HeaderConfigList.Select(list => list.Items.Sum(item => item?.ColumnSize ?? 0)).Max();
-
+            // スクロールバー分のサイズ調整
             Header.Margin = new Thickness(0, 0, DmyControl.Height > ActualHeight ? 17 : 0, 0);
             GridBox.Margin = new Thickness(0, 0, DmyControl.Height > ActualHeight ? 17 : 0, DmyControl.Width > ActualWidth ? 17 : 0);
         }

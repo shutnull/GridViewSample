@@ -27,6 +27,9 @@ namespace GridViewSample.UserCtrl
         [Browsable(true)]
         [Description("グリッドボックス前景色")]
         public Color ForeColor { get; set; } = Colors.Black;
+        [Browsable(true)]
+        [Description("グリッドボックスボーダー色")]
+        public Color BorderColor { get; set; } = Color.FromRgb(0x80, 0x80, 0x80);
 
         [Browsable(true)]
         [Description("スクロールしない固定行数")]
@@ -132,7 +135,7 @@ namespace GridViewSample.UserCtrl
                     Width = width,
                     // ボーダーの設定
                     BorderThickness = new Thickness(1),
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
+                    BorderBrush = new SolidColorBrush(BorderColor),
                     // 背景色
                     Background = Brushes.Transparent,
                     // 表示位置
@@ -167,7 +170,7 @@ namespace GridViewSample.UserCtrl
                     Content = text,
                     // ボーダーの設定
                     BorderThickness = new Thickness(1),
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
+                    BorderBrush = new SolidColorBrush(BorderColor),
                     // 背景色
                     Background = Brushes.Transparent,
                     // 前景色
@@ -246,12 +249,38 @@ namespace GridViewSample.UserCtrl
         //}
         #endregion
 
+        /// <summary>
+        /// スクロール連動用
+        /// </summary>
+        /// <param name="offset"></param>
         public void ScrollToHorizontal(double offset)
         {
             HVScrollBar.ScrollToHorizontalOffset(offset);
         }
 
-
+        /// <summary>
+        /// 選択時カラー変更
+        /// </summary>
+        public void SelectingChangeColor(Color backColor, Color foreColor)
+        {
+            Background = new SolidColorBrush(backColor);
+            foreach (object child in CanvasFrozen.Children)
+            {
+                if (child.GetType() == typeof(Label))
+                {
+                    Label ctr = (Label)child;
+                    ctr.Foreground = new SolidColorBrush(foreColor);
+                }
+            }
+            foreach (object child in CanvasNoFrozen.Children)
+            {
+                if (child.GetType() == typeof(Label))
+                {
+                    Label ctr = (Label)child;
+                    ctr.Foreground = new SolidColorBrush(foreColor);
+                }
+            }
+        }
 
     }
 }

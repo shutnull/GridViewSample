@@ -18,6 +18,9 @@ namespace GridViewSample.UserCtrl
         [Browsable(true)]
         [Description("ヘッダー前景色")]
         public Color ForeColor { get; set; } = Colors.White;
+        [Browsable(true)]
+        [Description("ボーダー色")]
+        public Color BorderColor { get; set; } = Color.FromRgb(0x80, 0x80, 0x80);
 
         [Browsable(true)]
         [Description("スクロールしない固定行数")]
@@ -125,7 +128,7 @@ namespace GridViewSample.UserCtrl
                 Content = text,
                 // ボーダーの設定
                 BorderThickness = new Thickness(1),
-                BorderBrush = new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0x80)),
+                BorderBrush = new SolidColorBrush(BorderColor),
                 // 背景色
                 Background = new SolidColorBrush(BackColor),
                 // 前景色
